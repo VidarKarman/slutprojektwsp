@@ -1,36 +1,33 @@
 require 'sqlite3'
 
-db = SQLite3::Database.new("databas.db")
+db = SQLite3::Database.new("users.db")
 
 
 def seed!(db)
-  puts "Using db file: db/todos.db"
+  puts "Using db file: db/users.db"
   puts "🧹 Dropping old tables..."
   drop_tables(db)
   puts "🧱 Creating tables..."
   create_tables(db)
   puts "🍎 Populating tables..."
-  populate_tables(db)
-  puts "✅ Done seeding the database!"
+  #populate_tables(db)
+  #puts "✅ Done seeding the database!"
 end
 
 def drop_tables(db)
-  db.execute('DROP TABLE IF EXISTS exempel')
+  db.execute('DROP TABLE IF EXISTS users')
 end
 
 def create_tables(db)
-  db.execute('CREATE TABLE exempel (
+  db.execute('CREATE TABLE users (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              name TEXT NOT NULL, 
-              description TEXT,
-              state BOOLEAN)')
+              username TEXT NOT NULL, 
+              pwd-digest TEXT)')
 end
 
-def populate_tables(db)
-  db.execute('INSERT INTO exempel (name, description, state) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko",false)')
-  db.execute('INSERT INTO exempel (name, description, state) VALUES ("Köp julgran", "En rödgran",false)')
-  db.execute('INSERT INTO exempel (name, description, state) VALUES ("Pynta gran", "Glöm inte lamporna i granen och tomten",false)')
-end
+#def populate_tables(db)
+  #db.execute('INSERT INTO users (name, pwd-digest) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko")')
+#end
 
 
 seed!(db)
