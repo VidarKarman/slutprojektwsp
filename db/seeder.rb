@@ -22,7 +22,7 @@ def create_tables(db)
   db.execute('CREATE TABLE users (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               username TEXT NOT NULL, 
-              pwd-digest TEXT)')
+              pwddigest TEXT)')
 end
 
 #def populate_tables(db)
@@ -32,7 +32,30 @@ end
 
 seed!(db)
 
+db = SQLite3::Database.new("messages.db")
 
+def seed2!(db)
+  puts "Using db file: db/users.db"
+  puts "🧹 Dropping old tables..."
+  drop_tables(db)
+  puts "🧱 Creating tables..."
+  create_tables(db)
+  puts "🍎 Populating tables..."
+  #populate_tables(db)
+  #puts "✅ Done seeding the database!"
+end
 
+def drop_tables2(db)
+  db.execute('DROP TABLE IF EXISTS messages')
+end
 
+def create_tables2(db)
+  db.execute('CREATE TABLE messages (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              user1id TEXT NOT NULL, 
+              user2id TEXT NOT NULL,
+              contents TEXT,
+              time INTEGER)')
+end
 
+seed2!(db)
