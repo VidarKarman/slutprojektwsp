@@ -26,7 +26,7 @@ def create_tables(db)
 end
 
 #def populate_tables(db)
-  #db.execute('INSERT INTO users (name, pwd-digest) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko")')
+  db.execute('INSERT INTO users (name, pwd-digest) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko")')
 #end
 
 
