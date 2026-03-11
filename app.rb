@@ -10,6 +10,7 @@ get('/') do
   slim(:home)
 end
 get('/chat') do
+  
   slim(:chat)
 end
 
