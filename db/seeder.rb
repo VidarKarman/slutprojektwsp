@@ -37,9 +37,9 @@ db = SQLite3::Database.new("messages.db")
 def seed2!(db)
   puts "Using db file: db/users.db"
   puts "🧹 Dropping old tables..."
-  drop_tables(db)
+  drop_tables2(db)
   puts "🧱 Creating tables..."
-  create_tables(db)
+  create_tables2(db)
   puts "🍎 Populating tables..."
   #populate_tables(db)
   #puts "✅ Done seeding the database!"
