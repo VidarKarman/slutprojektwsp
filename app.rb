@@ -13,6 +13,8 @@ end
 get('/chat') do
   db = SQLite3::Database.new("db/messages.db")
   db.results_as_hash = true
+  @chats = {}
+  @activechat = {}
   @chats = db.execute("SELECT user2id FROM messages WHERE user1id=?", session[:user_id])
   slim(:chat)
 end
@@ -20,6 +22,7 @@ post('/chat') do
   chaten = params["chat"]
   db = SQLite3::Database.new("db/messages.db")
   db.results_as_hash = true
+  @activechat = {}
   @activechat = db.execute("SELECT user1id, user2id, contents, time FROM messages WHERE user1id=? AND user2id=?",[session[:user_id], chaten])  
   redirect('/chat')
 end
@@ -59,7 +62,9 @@ post('/register') do
     if pwd==pwd_confirm
       pwd_digest=BCrypt::Password.create(pwd)
       db.execute("INSERT INTO users(username, pwddigest) VALUES(?,?)", [user, pwd_digest])
-      db.execute("INSERT INTO messages(user1id, user2id, contents, ) VALUES(?,?)", [user, pwd_digest])
+      db = SQLite3::Database.new("db/messages.db")
+      db.results_as_hash = true
+      db.execute("INSERT INTO messages(user1id, user2id, contents) VALUES(?,?,?)", [user, 1, "test"])
       redirect('/chat')
     else
       redirect('/')  #till standardsidan med error

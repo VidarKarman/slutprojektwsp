@@ -1,12 +1,18 @@
 form action="/chat" method="post"
     select name="chat"
       - @chats.each do |chat|
-        option value=chat["user2id"] = chat["user2id"]
-    input type="submit" value="till chaten"
+            option value=chat["user2id"] = chat["user2id"]
+    input type="submit" value="till chatten"
 
 form action="/chat" method="post"
     input type="text" name="chat" placeholder="användarnamnet"
-    input type="submit" value="till chaten"
+    input type="submit" value="till chatten"
 
-- @activechat.each do |message|
-    p = "#{message[contents]}"
+- if !@activechat.empty?
+    - @activechat.each do |message|
+        p = "#{message[contents]}"
+
+
+form action="/typedmessage" method="post"
+    input type="text" name="message" placeholder="användarnamnet"
+    input type="submit" value="till chatten"
