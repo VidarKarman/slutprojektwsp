@@ -11,6 +11,7 @@ get('/') do
   slim(:home)
 end
 get('/chat') do
+  redirect('/') unless session[:user_id]
   @chaten = session[:chat_with]
   db = SQLite3::Database.new("db/messages.db")
   db.results_as_hash = true
@@ -22,6 +23,7 @@ get('/chat') do
   slim(:chat)
 end
 post('/chat') do
+  redirect('/') unless session[:user_id]
   @chaten = params["chat"]
   session[:chat_with] = params["chat"]
   db = SQLite3::Database.new("db/messages.db")
@@ -41,15 +43,23 @@ post('/typedmessage') do
   redirect('/chat')
 end
 post('/login') do
-  user = params["username"]
-  pwd = params["pwd"]
+  user = params["username"].to_s.strip
+  pwd = params["pwd"].to_s
+
+  if user.empty? || pwd.empty?
+    @error = "Användarnamn och lösenord krävs"
+    return slim(:home)
+  end
+
   db = SQLite3::Database.new("db/users.db")
   db.results_as_hash = true
-  result = db.execute("SELECT id,pwddigest FROM users WHERE username=?",user)
+  result = db.execute("SELECT id,pwddigest FROM users WHERE username=?", user)
 
   if result.empty?
-    redirect('/')
+    @error = "Fel användarnamn eller lösenord"
+    return slim(:home)
   end
+
   user_id = result.first["id"]
   pwd_digest = result.first["pwddigest"]
 
@@ -57,7 +67,8 @@ post('/login') do
     session[:user_id] = user_id
     redirect('/chat')
   else
-    redirect('/')
+    @error = "Fel användarnamn eller lösenord"
+    slim(:home)
   end
 end
 

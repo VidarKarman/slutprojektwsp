@@ -1,13 +1,15 @@
 h1 login
+- if @error
+    p.error= @error
 form action="/login" method="post"
     input type="text" name="username" placeholder="username"
-    input type="text" name="pwd" placeholder="password"
+    input type="password" name="pwd" placeholder="password"
     input type="submit" value="login"
 
 p ="  "
 
 form action="/register" method="post"
     input type="text" name="username" placeholder="username"
-    input type="text" name="pwd" placeholder="password"
-    input type="text" name="pwd_confirm" placeholder="password confirmation"
+    input type="password" name="pwd" placeholder="password"
+    input type="password" name="pwd_confirm" placeholder="password confirmation"
     input type="submit" value="registera användare"
