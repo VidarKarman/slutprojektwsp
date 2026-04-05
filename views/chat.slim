@@ -1,7 +1,7 @@
 form action="/chat" method="post"
     select name="chat"
       - @chats.each do |chat|
-            option value=chat["user2id"] = chat["user2id"]
+            option value=chat["id"] = chat["username"]
     input type="submit" value="till chatten"
 
 form action="/chat" method="post"
@@ -10,8 +10,25 @@ form action="/chat" method="post"
 
 - if !@activechat.empty?
     - @activechat.each do |message|
-        p = "#{message[contents]}"
-
+        div(style="margin-bottom:0.8em; padding:0.4em; border-bottom:1px solid #ddd;")
+            div
+                | #{message["contents"]}
+            - if message["user1id"].to_i == session[:user_id].to_i
+                div(style="margin-top:0.4em")
+                    form action="/delete_message" method="post" style="display:inline; margin-right:8px"
+                        input type="hidden" name="message_id" value=message["id"]
+                        input type="submit" value="Ta bort"
+                    form action="/edit_message" method="post" style="display:inline"
+                        input type="hidden" name="message_id" value=message["id"]
+                        input type="text" name="new_content" value=message["contents"] style="width:180px"
+                        input type="submit" value="Ändra"
+            div(style="margin-top:0.3em; font-size:0.8em; color:#555")
+                span(style="float:right")
+                    = message["sender_name"]
+                    - if message["time"]
+                        |  (#{Time.at(message["time"]).strftime('%Y-%m-%d %H:%M')})
+                span= message["user1id"].to_i == session[:user_id].to_i ? 'You' : ''
+            
 
 form action="/typedmessage" method="post"
     input type="text" name="message" placeholder="medelandet"
