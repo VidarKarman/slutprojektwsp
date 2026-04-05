@@ -23,7 +23,7 @@ form action="/chat" method="post"
                         input type="text" name="new_content" value=message["contents"] style="width:180px"
                         input type="submit" value="Ändra"
             div(style="margin-top:0.3em; font-size:0.8em; color:#555")
-                span(style="float:right")
+                span(style="float:right") 
                     = message["sender_name"]
                     - if message["time"]
                         |  (#{Time.at(message["time"]).strftime('%Y-%m-%d %H:%M')})
