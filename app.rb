@@ -39,10 +39,8 @@ post('/chat') do
   redirect('/') unless session[:user_id]
   chat_param = params["chat"]
   if chat_param =~ /^\d+$/
-    # It's an ID from the dropdown
     session[:chat_with] = chat_param.to_i
   else
-    # It's a username from the text input
     db = SQLite3::Database.new("db/users.db")
     db.results_as_hash = true
     partner = db.execute("SELECT id FROM users WHERE username = ?", chat_param).first
